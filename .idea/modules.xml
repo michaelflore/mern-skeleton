@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/mern-boilerplate.iml" filepath="$PROJECT_DIR$/.idea/mern-boilerplate.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/mern-skeleton.iml" filepath="$PROJECT_DIR$/.idea/mern-skeleton.iml" />
     </modules>
   </component>
 </project>
