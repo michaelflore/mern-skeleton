@@ -1,32 +1,26 @@
-import express from 'express';
-import { MongoClient } from 'mongodb';
-import devBundle from "./devBundle"; //COMMENT BEFORE BUILDING
-import path from 'path';
+import config from "../config/config";
+import app from "./express";
+import mongoose from "mongoose";
 import template from "./../template";
 
-const app = express();
-const CURRENT_WORKING_DIR = process.cwd();
+mongoose.Promise = global.Promise
+mongoose.connect(config.mongoUri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });
 
-const url = process.env.MONGODB_URI || 'mongodb://localhost:27017/mernboilerplate';
-MongoClient.connect(url, (err, db) => {
-    console.log("Connected Successfully to mongodb server")
-    db.close();
+mongoose.connection.on('error', () => {
+    throw new Error(`unable to connect to database ${config.mongoUri}`);
 })
 
-devBundle.compile(app); //COMMENT BEFORE BUILDING
-
-app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')));
 
 app.get('/', (req, res) => {
     res.status(200).send(template())
 });
 
-let port = process.env.PORT || 3000;
 
-app.listen(port, function(err) {
+//Start server
+app.listen(config.port, function(err) {
     if(err) {
         console.log(err);
     }
 
-    console.info('Server started on port %s.', port);
+    console.info('Server started on port %s.', config.port);
 })
