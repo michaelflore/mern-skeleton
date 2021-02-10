@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.route('/api/users')
     .get(userController.list)
-    .post(userController.create);
+    .post(userController.create); //register
 
 router.route('/api/users/:userId')
     .get(authController.requireSignin, userController.read)

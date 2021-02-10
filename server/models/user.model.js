@@ -1,37 +1,38 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose'
+import crypto from 'crypto'
 const UserSchema = new mongoose.Schema({
     name: {
-        type: "String",
+        type: String,
         trim: true,
-        required: true
+        required: 'Name is required'
     },
     email: {
-        type: "String",
+        type: String,
         trim: true,
-        unique: "Email already exists",
-        match: [/.+\@.+\..+/, 'Please use a valid email address'],
+        unique: 'Email already exists',
+        match: [/.+\@.+\..+/, 'Please fill a valid email address'],
         required: 'Email is required'
     },
+    hashed_password: {
+        type: String,
+        required: "Password is required"
+    },
+    salt: String,
+    updated: Date,
     created: {
         type: Date,
         default: Date.now
-    },
-    updated: Date,
-    hashed_password: {
-        type: "String",
-        required: "Password is required"
-    },
-    salt: String
-});
+    }
+})
 
 UserSchema
     .virtual('password')
-    .set(function (password) {
+    .set(function(password) {
         this._password = password
         this.salt = this.makeSalt()
-        this.hashed_password = this.encryptedPassword(password)
+        this.hashed_password = this.encryptPassword(password)
     })
-    .get(function () {
+    .get(function() {
         return this._password
     })
 
@@ -45,11 +46,11 @@ UserSchema.path('hashed_password').validate(function(v) {
 }, null)
 
 UserSchema.methods = {
-    authenticate: function (plainText) {
+    authenticate: function(plainText) {
         return this.encryptPassword(plainText) === this.hashed_password
     },
-    encryptPassword: function (password) {
-        if(!password) return ''
+    encryptPassword: function(password) {
+        if (!password) return ''
         try {
             return crypto
                 .createHmac('sha1', this.salt)
@@ -59,8 +60,9 @@ UserSchema.methods = {
             return ''
         }
     },
-    makeSalt: function () {
+    makeSalt: function() {
         return Math.round((new Date().valueOf() * Math.random())) + ''
     }
 }
+
 export default mongoose.model('User', UserSchema);

@@ -1,11 +1,13 @@
 import React from "react";
 import { hot } from "react-hot-loader";
+import { BrowserRouter } from "react-router-dom";
+import MainRouter from "./MainRouter";
 
 const App = () => {
     return (
-        <div>
-            <h1>Hello World!</h1>
-        </div>
+        <BrowserRouter>
+            <MainRouter />
+        </BrowserRouter>
     );
 }
 

@@ -38,10 +38,11 @@ const userById = async (req, res, next, id) => {
         }
 
         req.profile = user;
+        console.log(req.profile)
         next()
     } catch (e) {
         return res.status(400).json({
-            error: errorHandler.getErrorMessage()
+            error: errorHandler.getErrorMessage(e)
         })
     }
 };
