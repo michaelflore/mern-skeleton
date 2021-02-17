@@ -1,9 +1,13 @@
 import React, {useEffect, useState} from 'react';
+
 import auth from './../auth/auth-helper';
 import {read} from './api-user.js';
 import {Redirect, Link} from 'react-router-dom';
+
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
+
+import DeleteUser from "./DeleteUser";
 
 function Profile({ match }) {
 
@@ -35,11 +39,10 @@ function Profile({ match }) {
     }
 
     return (
-        <Card style={{ width: '18rem' }}>
+        <Card style={{ width: '30rem' }}>
             <Card.Img variant="top" src="holder.js/100px180" />
             <Card.Body>
                 <Card.Title>Profile</Card.Title>
-                <Card.Text>
                     <ListGroup>
                         <ListGroup.Item>
                             { user.name }
@@ -60,7 +63,6 @@ function Profile({ match }) {
                             { "Joined: " + (new Date(user.created)).toDateString() }
                         </ListGroup.Item>
                     </ListGroup>
-                </Card.Text>
             </Card.Body>
         </Card>
     );

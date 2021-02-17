@@ -1,10 +1,14 @@
 import React, {useEffect, useState} from 'react';
+
 import auth from "./../auth/auth-helper";
 import {Redirect} from "react-router-dom";
+
 import Card from "react-bootstrap/Card";
 import Alert from "react-bootstrap/Alert";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+
+import {read, update} from "./api-user"
 
 function EditProfile({ match }) {
     const [values, setValues] = useState({
@@ -36,7 +40,8 @@ function EditProfile({ match }) {
 
     }, [match.params.userId])
 
-    const clickSubmit = () => {
+    const clickSubmit = (event) => {
+        event.preventDefault()
         const user = {
             name: values.name || undefined,
             email: values.email || undefined,

@@ -19,7 +19,8 @@ function Signin(props) {
         setValues({ ...values, [name]: event.target.value });
     }
 
-    const clickSubmit = () => {
+    const clickSubmit = (event) => {
+        event.preventDefault();
         const user = {
             email: values.email || undefined,
             password: values.password || undefined
@@ -41,9 +42,9 @@ function Signin(props) {
             pathname: '/'
         }
     }
-    const { redirectToReferrer } = values;
+    const { redirectToRef } = values;
 
-    if (redirectToReferrer) {
+    if (redirectToRef) {
         return (<Redirect to={from}/>)
     }
 

@@ -5,6 +5,8 @@ import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 
+import {remove} from "./api-user";
+
 function DeleteUser(props) {
     const [open, setOpen] = useState(false);
     const [redirect, setRedirect] = useState(false);

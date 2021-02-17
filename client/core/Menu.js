@@ -1,5 +1,5 @@
 import React, {Fragment} from 'react';
-import {withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import auth from "./../auth/auth-helper";
@@ -12,29 +12,29 @@ const isActive = (history, path) => {
         return {color: '#ffffff'}
 }
 
-function Menu({ history }) {
+const Menu = withRouter(({ history }) => {
     return (
         <Navbar bg="dark" expand="lg">
             <Navbar.Brand href="/">Mern Skeleton</Navbar.Brand>
 
             <Nav className="mr-auto">
-                <Nav.Link href="/" style={isActive(history, "/")}>Home</Nav.Link>
-                <Nav.Link href="/users" style={isActive(history, "/users")}>Users</Nav.Link>
+                <Link to="/" style={isActive(history, "/")}>Home</Link>
+                <Link to="/users" style={isActive(history, "/users")}>Users</Link>
                 {
                     !auth.isAuthenticated() && (
                         <Fragment>
-                            <Nav.Link style={isActive(history, "/signup")} href="/signup">Sign Up</Nav.Link>
-                            <Nav.Link style={isActive(history, "/signin")} href="/signin">Sign In</Nav.Link>
+                            <Link to="/signup" style={isActive(history, "/signup")}>Sign Up</Link>
+                            <Link to="/signin" style={isActive(history, "/signin")}>Sign In</Link>
                         </Fragment>
                     )
                 }
                 {
                     auth.isAuthenticated() && (
                         <Fragment>
-                            <Nav.Link href={"/user/" + auth.isAuthenticated().user._id}
-                                      style={isActive(history, "/user" + auth.isAuthenticated().user._id)}>
+                            <Link to={"/user/" + auth.isAuthenticated().user._id}
+                                      style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>
                                 My Profile
-                            </Nav.Link>
+                            </Link>
                             <Button variant="warning" onClick={() => auth.clearJWT(() => history.push('/')) }>
                                 Sign Out
                             </Button>
@@ -44,6 +44,6 @@ function Menu({ history }) {
             </Nav>
         </Navbar>
     );
-}
+})
 
-export default withRouter(Menu);
+export default Menu;

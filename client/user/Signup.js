@@ -24,7 +24,8 @@ function Signup() {
         setValues({ ...values, error: '', open: false });
     }
 
-    const clickSubmit = () => {
+    const clickSubmit = (event) => {
+        event.preventDefault()
         const user = {
             name: values.name || undefined,
             email: values.email || undefined,
