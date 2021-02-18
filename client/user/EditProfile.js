@@ -15,6 +15,8 @@ function EditProfile({ match }) {
         name: '',
         password: '',
         email: '',
+        about: '',
+        photo: '',
         open: false,
         error: '',
         redirectToProfile: false
@@ -30,7 +32,7 @@ function EditProfile({ match }) {
             if (data && data.error) {
                 setValues({...values, error: data.error})
             } else {
-                setValues({...values, name: data.name, email: data.email})
+                setValues({...values, name: data.name, email: data.email, about: data.about})
             }
         })
 
@@ -42,11 +44,14 @@ function EditProfile({ match }) {
 
     const clickSubmit = (event) => {
         event.preventDefault()
-        const user = {
-            name: values.name || undefined,
-            email: values.email || undefined,
-            password: values.password || undefined
-        }
+
+        let user = new FormData();
+        values.name && user.append('name', values.name)
+        values.email && user.append('email', values.email)
+        values.password && user.append('password', values.password)
+        values.about && user.append('about', values.about)
+        values.photo && user.append('photo', values.photo)
+
 
         update({ userId: match.params.userId }, { t: jwt.token }, user).then((data) => {
             if (data && data.error) {
@@ -58,7 +63,8 @@ function EditProfile({ match }) {
     }
 
     const handleChange = (name, event) => {
-        setValues({...values, [name]: event.target.value })
+        const value = name === 'photo' ? event.target.files[0] : event.target.value;
+        setValues({...values, [name]: value })
     }
 
     if(values.redirectToProfile) {
@@ -86,6 +92,18 @@ function EditProfile({ match }) {
                             <Form.Label>Password</Form.Label>
                             <Form.Control type="password" placeholder="Password" value={values.password}
                                           onChange={e => handleChange('password', e)} />
+                        </Form.Group>
+                        <Form.Group controlId="formGroupTextarea">
+                            <Form.Label>About:</Form.Label>
+                            <Form.Control as="textarea" rows={3} value={values.about}
+                                          onChange={e => handleChange('about', e)}/>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.File custom>
+                                <Form.File.Input onChange={e => handleChange('photo', e)} isValid/>
+                                <Form.File.Label data-browse="Browse">Upload Photo</Form.File.Label>
+                                <Form.Control.Feedback type="valid">{values.photo.name}</Form.Control.Feedback>
+                            </Form.File>
                         </Form.Group>
                         <Button variant="primary" type="submit" onClick={clickSubmit}>
                             Update

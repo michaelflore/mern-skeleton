@@ -40,7 +40,9 @@ function Users() {
                         return (
                             <Link to={"/user/" + user._id} key={i}>
                                 <ListGroup.Item>
-                                    <Card.Img src="holder.js/100px180" title="Avatar"></Card.Img>
+                                    <Card.Img src={
+                                        user._id ? `/api/users/photo/${user._id}?${new Date().getTime()}` : '/api/users/defaultphoto'
+                                    } title="Avatar" />
                                     <Card.Title>{user.name}</Card.Title>
                                     <Button>Arrow</Button>
                                 </ListGroup.Item>

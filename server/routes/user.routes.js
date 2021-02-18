@@ -8,6 +8,13 @@ router.route('/api/users')
     .get(userController.list)
     .post(userController.create); //register
 
+//Photo routes
+router.route('/api/users/photo/:userId')
+    .get(userController.photo, userController.defaultPhoto)
+
+router.route('/api/users/defaultphoto')
+    .get(userController.defaultPhoto)
+
 router.route('/api/users/:userId')
     .get(authController.requireSignin, userController.read)
     .put(authController.requireSignin, authController.hasAuthorization, userController.update)

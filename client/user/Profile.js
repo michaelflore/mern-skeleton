@@ -40,7 +40,11 @@ function Profile({ match }) {
 
     return (
         <Card style={{ width: '30rem' }}>
-            <Card.Img variant="top" src="holder.js/100px180" />
+            <Card.Img src={
+                user._id
+                    ? `/api/users/photo/${user._id}?${new Date().getTime()}`
+                    : '/api/users/defaultphoto'
+            } title="Avatar" />
             <Card.Body>
                 <Card.Title>Profile</Card.Title>
                     <ListGroup>
@@ -49,6 +53,9 @@ function Profile({ match }) {
                         </ListGroup.Item>
                         <ListGroup.Item>
                             { user.email }
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                            { user.about }
                         </ListGroup.Item>
                         {
                             auth.isAuthenticated().user && auth.isAuthenticated().user._id == user._id &&
